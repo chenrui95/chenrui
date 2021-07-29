@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    // 获取a字符在b字符中出现的次数
+    function count1(a, b) {
+      const list = b.split(a);
+      return list.length > 0 ? list.length - 1 : 0;
+    }
+
+    function count2(a, b) {
+      const reg = new RegExp(a, 'g');
+      const c = b.replace(reg, '');
+      const length = b.length - c.length;
+      return a.length > 0 ? length/a.length : 0;
+    }
+
+    function count3(a, b) {
+      return [...b.matchAll(a)].length;
+    }
+
+    // console.log(count2('b', 'abcdefabcd'))
+    function Parent() {
+        this.a = 1;
+        this.b = [1, 2, this.a];
+        this.c = { demo: 5 };
+        this.show = function () {
+            console.log(this.a , this.b , this.c.demo );
+        }
+    }
+
+    function Child() {
+        this.a = 2;
+        this.change = function () {
+            this.b.push(this.a);
+            this.a = this.b.length;
+            this.c.demo = this.a++;
+        }
+    }
+
+    Child.prototype = new Parent();
+    var parent = new Parent();
+    var child1 = new Child();
+    var child2 = new Child();
+    child1.a = 11;
+    child2.a = 12;
+    parent.show();
+    child1.show();
+    child2.show();
+    child1.change();
+    child2.change();
+    parent.show();
+    child1.show();
+    child2.show();
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

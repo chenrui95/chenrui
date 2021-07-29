@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    function myNew() {
+      // 通过array的shift方法，将arguments中的第一个参数作为构造函数，剩余参数作为构造时的传参
+      const constructor = Array.prototype.shift.call(arguments);
+      // 判断构造函数的类型
+      if (typeof constructor !== 'function') {
+        console.error('type error');
+        return;
+      }
+      // 新建一个对象，该对象的原型是constructor.prototype
+      // 方法1
+      // const obj = Object.create(constructor.prototype);
+      // 方法2
+      const obj = new Object();
+      obj.__proto__ = constructor.prototype;
+      // 将this指向新对象，并执行构造函数进行初始化
+      const result = constructor.apply(obj, arguments);
+      if (result && (typeof result === "object" || typeof result === "function")) {
+        return result;
+      }
+      return obj;
+    }
+
+    function Person(name) {
+      this.name = name;
+    }
+
+    const p = myNew(Person, '张三');
+    console.log(p);
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

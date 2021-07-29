@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    function Person(name) {
+        this.name = name
+    }
+    // 修改原型
+    Person.prototype.getName = function() {}
+    var p = new Person('hello')
+    console.log(p.__proto__ === Person.prototype) // true
+    console.log(p.__proto__ === p.constructor.prototype) // true
+    console.log(p.constructor === Person)        // true
+    console.log(p.constructor === Person.prototype.constructor)        // true
+
+    // 重写原型
+    Person.prototype = {
+        getName: function() {}
+    }
+    var p = new Person('hello');
+    console.log(p.__proto__ === Person.prototype)        // true
+    /*
+      改写原型之前，p.constructor === Person.prototype.constructor === Person,
+      因此改写之前p.__proto__ === Person.prototype === p.constructor.prototype.
+      改写之后p.constructor !== Person, p.constructor === Object,
+      但p.__proto__  ===  Person.prototype,因此
+      p.__proto__ === p.constructor.prototype为false
+      改写之后
+    */ 
+    console.log(p.__proto__ === p.constructor.prototype) // false
+
+
+    // a
+    function Foo () {
+    getName = function () {
+      console.log(1);
+    }
+    return this;
+    }
+    // b
+    Foo.getName = function () {
+    console.log(2);
+    }
+    // c
+    Foo.prototype.getName = function () {
+    console.log(3);
+    }
+    // d
+    var getName = function () {
+    console.log(4);
+    }
+    // e
+    function getName () {
+    console.log(5);
+    }
+
+    Foo.getName();           // 2
+    getName();               // 4
+    Foo().getName();         // 1
+    getName();               // 1 
+    new Foo.getName();       // 2
+    new Foo().getName();     // 3
+    new new Foo().getName(); // 3
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

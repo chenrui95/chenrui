@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    window.onload = function() {
+      const div = document.getElementsByTagName('div')[0];
+      div.oninput = function(e) {
+        div.innerText = div.innerText + 'a';
+        console.log(e.inputType);
+        if (e.inputType === 'insertLineBreak') {
+          div.innerText = div.innerText + '\n';
+        }
+        // 获取光标
+        const sel = window.getSelection();
+        // 若光标回到起点则做处理
+        // 创建一个range对象
+        const range = document.createRange();
+        // 设置range的范围为输入框的全部文本
+        range.selectNodeContents(e.target);                
+        // 将range起始点设置到结尾点
+        range.collapse(false);
+        // 将光标位置移到最后
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+    }
+
+  </script>
+  <style>
+    div{
+      height: 500px;
+      width: 800px;
+      border: solid 1px black;
+      padding: 4px;
+    }
+  </style>
+</head>
+<body>
+    <div contenteditable="plaintext-only" ></div>
+</body>
+</html>

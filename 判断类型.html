@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    // instanceOf
+    function myInstanceOf(left, right) {
+      let proto = Object.getPrototypeOf(left);
+      const prototype = right.prototype;
+      while(true) {
+        if (proto === prototype) return true;
+        if (!proto) return false;
+        proto = Object.getPrototypeOf(left);
+      }
+    }
+
+    //  可以判断全部类型的函数
+    function getType(v) {
+      if (typeof v !== 'object') {
+        return typeof v;
+      }
+      if (v === null) {
+        return 'null'
+      }
+      if (v instanceof Array) {
+        return 'array'
+      }
+      return 'object'
+    }
+
+    window.onload = function() {
+      const body = document.getElementsByTagName('body')[0];
+      body.innerText = `
+        number 1: ${getType(1)},
+        string 's': ${getType('s')},
+        boolean true: ${getType(true)},
+        array []: ${getType([])},
+        null: ${getType(null)},
+        undefined: ${getType(undefined)},
+        object{}: ${getType({})},
+      `
+    }
+  </script>
+</head>
+<body>
+</body>
+</html>

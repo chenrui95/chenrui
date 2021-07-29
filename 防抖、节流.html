@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    // 防抖
+    /*
+      函数防抖（debounce），就是指触发事件后，在 n 秒内函数只能执行一次，如果触发事件后在 n 秒内又触发了事件，
+      则会重新计算函数延执行时间。
+      前端开发过程中，有一些事件，常见的例如，onresize，scroll，mousemove ,mousehover 等，会被频繁触发
+      （短时间内多次触发），不做限制的话，有可能一秒之内执行几十次、几百次，如果在这些函数内部执行了其他函数，
+      尤其是执行了操作 DOM 的函数（浏览器操作 DOM 是很耗费性能的），那不仅会浪费计算机资源，还会降低程序运行
+      速度，甚至造成浏览器卡死、崩溃。这种问题显然是致命的。
+    */
+    function debounce(fn, wait) {
+      let timer = null;
+      
+      return function() {
+        if (timer) {
+          clearTimeout(timer);
+          timer = null;
+        }
+        const obj = this;
+        const arg = arguments;
+        timer = setTimeout(() => {
+          fn.apply(obj, arg)
+        }, wait)
+      }
+    }
+        
+    function handle(){
+        console.log(Math.random());
+    }
+        
+    window.addEventListener("resize",debounce(handle,1000));
+
+    // 节流
+    /*
+      函数节流是指规定一个单位时间，在这个单位时间内，只能有一次触发事件的回调函数执行，
+      如果在同一个单位时间内某事件被触发多次，只有一次能生效。节流可以使用在 scroll 函数
+      的事件监听上，通过事件节流来降低事件调用的频率。
+    */
+
+    function throttle(fn, delay) {
+      const curTime = Date.now();
+      return function() {
+        const context = this;
+        const arg = arguments;
+        const nowTime = Date.now();
+        if (nowTime - curTime > delay) {
+          fn.apply(context, arg)
+        } 
+      }
+    }
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
